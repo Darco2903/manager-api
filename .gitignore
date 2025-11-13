@@ -1,0 +1,12 @@
+# dev
+node_modules/
+.vscode/
+*_.*
+*_
+
+# build
+dist/
+openapi.json
+
+# tarballs
+altv-web-api-*.tgz

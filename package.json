@@ -1,0 +1,37 @@
+{
+    "name": "manager-api",
+    "version": "1.0.0-pre",
+    "description": "",
+    "main": "./dist/index.js",
+    "type": "module",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.21.0",
+    "exports": {
+        ".": "./dist/index.js",
+        "./client": "./dist/client.js",
+        "./server": "./dist/server.js"
+    },
+    "scripts": {
+        "dev": "tsx src/index.ts",
+        "build": "tsc",
+        "prepack": "pnpm run build",
+        "generate-openapi": "tsx tools/generate-openapi.ts",
+        "clean": "rimraf -g dist manager-api-*.tgz openapi.json"
+    },
+    "dependencies": {
+        "@ts-rest/core": "^3.52.1",
+        "@ts-rest/open-api": "^3.52.1",
+        "jsonwebtoken": "^9.0.2",
+        "zod": "^3.25.76"
+    },
+    "devDependencies": {
+        "@types/jsonwebtoken": "^9.0.10",
+        "@types/node": "^24.8.1",
+        "prettier": "^3.6.2",
+        "rimraf": "^6.0.1",
+        "tsx": "^4.20.6",
+        "typescript": "^5.9.3"
+    }
+}

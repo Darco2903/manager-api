@@ -1,0 +1,17 @@
+# dev
+.vscode/
+.gitattributes
+*_.*
+*_
+tests/
+temp_/
+TODO.md
+prettier.config.js
+tsconfig.json
+src/
+
+# build
+openapi.json
+
+# tarballs
+manager-api-*.tgz
