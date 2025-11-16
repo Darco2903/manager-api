@@ -7,7 +7,7 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@10.21.0",
+    "packageManager": "pnpm@10.22.0",
     "exports": {
         ".": "./dist/index.js",
         "./client": "./dist/client.js",
@@ -24,6 +24,7 @@
         "@ts-rest/core": "^3.52.1",
         "@ts-rest/open-api": "^3.52.1",
         "jsonwebtoken": "^9.0.2",
+        "socket.io-client": "^4.8.1",
         "zod": "^3.25.76"
     },
     "devDependencies": {

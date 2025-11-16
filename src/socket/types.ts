@@ -1,3 +1,12 @@
-export interface ClientToServerEvents {}
+import {
+    SocketClientToServerConsole,
+    SocketServerToClientConsole,
+} from "./console.js";
 
-export interface ServerToClientEvents {}
+export interface ClientToServerEvents
+    //
+    extends SocketClientToServerConsole {}
+
+export interface ServerToClientEvents
+    //
+    extends SocketServerToClientConsole {}
