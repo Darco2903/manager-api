@@ -10,7 +10,12 @@ export const errorServerNotFoundSchema = apiError(
     z.literal("Server not found")
 );
 
-export const serverStatusSchema = z.enum(["ready", "maintenance", "archived"]);
+export const serverStatusSchema = z.enum([
+    //
+    "ready",
+    "maintenance",
+    "archived",
+]);
 
 export type ServerStatus = z.infer<typeof serverStatusSchema>;
 
