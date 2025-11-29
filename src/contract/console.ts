@@ -12,7 +12,7 @@ export default c.router({
         description: "Send a console command to the server",
         body: z.object({
             serverId: serverIdSchema,
-            command: z.string(),
+            command: z.string().nonempty(),
         }),
         responses: {
             200: apiSuccess(z.any()),

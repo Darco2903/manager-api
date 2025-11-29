@@ -44,3 +44,11 @@ export const serverInfoSchema = z.object({
 });
 
 export type ServerInfo = z.infer<typeof serverInfoSchema>;
+
+export const serverLogEntrySchema = z.object({
+    name: z.string(),
+    size: z.number(),
+    updated_at: z.date(),
+});
+
+export type ServerLogEntry = z.infer<typeof serverLogEntrySchema>;
