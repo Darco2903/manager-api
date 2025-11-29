@@ -1,5 +1,6 @@
 import z from "zod";
 import { apiError } from "../types.js";
+import { systemdStatusSchema } from "./systemd.js";
 
 export type STD = "stdout" | "stderr";
 
@@ -23,6 +24,7 @@ export const serverListEntrySchema = z.object({
     public_id: serverIdSchema,
     name: z.string(),
     status: serverStatusSchema,
+    serviceStatus: systemdStatusSchema,
     games: z.object({
         name: z.string(),
     }),
@@ -34,6 +36,7 @@ export const serverInfoSchema = z.object({
     public_id: serverIdSchema,
     name: z.string(),
     status: serverStatusSchema,
+    serviceStatus: systemdStatusSchema,
     games: z.object({
         name: z.string(),
     }),
