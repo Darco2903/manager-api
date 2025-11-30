@@ -25,21 +25,12 @@ export const serverListEntrySchema = z.object({
     name: z.string(),
     status: serverStatusSchema,
     serviceStatus: systemdStatusSchema,
-    games: z.object({
-        name: z.string(),
-    }),
+    gameName: z.string(),
 });
 
 export type ServerListEntry = z.infer<typeof serverListEntrySchema>;
 
-export const serverInfoSchema = z.object({
-    public_id: serverIdSchema,
-    name: z.string(),
-    status: serverStatusSchema,
-    serviceStatus: systemdStatusSchema,
-    games: z.object({
-        name: z.string(),
-    }),
+export const serverInfoSchema = serverListEntrySchema.extend({
     owner_id: z.string(),
     ip: z.string(),
     created_at: z.date(),
