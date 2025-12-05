@@ -31,7 +31,6 @@ export const serverListEntrySchema = z.object({
 export type ServerListEntry = z.infer<typeof serverListEntrySchema>;
 
 export const serverInfoSchema = serverListEntrySchema.extend({
-    owner_id: z.string(),
     ip: z.string(),
     created_at: z.date(),
     updated_at: z.date(),
