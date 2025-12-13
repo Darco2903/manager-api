@@ -9,9 +9,10 @@ TODO.md
 prettier.config.js
 tsconfig.json
 src/
+.github/
 
 # build
 openapi.json
 
 # tarballs
-manager-api-*.tgz
+darco2903-manager-api-*.tgz

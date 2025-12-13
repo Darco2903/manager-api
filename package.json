@@ -1,5 +1,5 @@
 {
-    "name": "manager-api",
+    "name": "@darco2903/manager-api",
     "version": "1.0.10-pre",
     "description": "",
     "main": "./dist/index.js",
@@ -7,7 +7,10 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@10.24.0",
+    "packageManager": "pnpm@10.25.0",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    },
     "exports": {
         ".": "./dist/index.js",
         "./client": "./dist/client.js",
@@ -18,7 +21,7 @@
         "build": "tsc",
         "prepack": "pnpm run build",
         "generate-openapi": "tsx tools/generate-openapi.ts",
-        "clean": "rimraf -g dist manager-api-*.tgz openapi.json"
+        "clean": "rimraf -g dist darco2903-manager-api-*.tgz openapi.json"
     },
     "dependencies": {
         "@ts-rest/core": "^3.52.1",
