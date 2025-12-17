@@ -32,6 +32,7 @@ export type ServerListEntry = z.infer<typeof serverListEntrySchema>;
 
 export const serverInfoSchema = serverListEntrySchema.extend({
     ip: z.string(),
+    startTime: z.date().nullable(),
     created_at: z.date(),
     updated_at: z.date(),
 });

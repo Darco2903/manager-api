@@ -7,9 +7,7 @@ import {
     serverListEntrySchema,
     serverInfoSchema,
     serverLogEntrySchema,
-    serverStatusSchema,
 } from "../types/servers.js";
-import { error } from "console";
 import { systemdStatusSchema } from "../common.js";
 
 const c = initContract();
@@ -84,6 +82,27 @@ export default c.router({
             200: apiSuccess(
                 z.object({
                     logs: z.array(serverLogEntrySchema),
+                })
+            ),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
+            404: errorServerNotFoundSchema,
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
+    users: {
+        method: "GET",
+        path: "/servers/:serverId/users",
+        description: "Get users with access to a specific server",
+        pathParams: z.object({
+            serverId: serverIdSchema,
+        }),
+        responses: {
+            200: apiSuccess(
+                z.object({
+                    users: z.array(z.string()),
                 })
             ),
             400: ZodErrorSchema,
