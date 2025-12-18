@@ -1,7 +1,10 @@
 import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
-import { errorServerNotFoundSchema, serverIdSchema } from "../types/servers.js";
+import {
+    errorServerNotFoundSchema,
+    serverPublicIdSchema,
+} from "../types/servers.js";
 
 const c = initContract();
 
@@ -11,7 +14,7 @@ export default c.router({
         path: "/console/command",
         description: "Send a console command to the server",
         body: z.object({
-            serverId: serverIdSchema,
+            serverPublicId: serverPublicIdSchema,
             command: z.string().nonempty(),
         }),
         responses: {
@@ -27,7 +30,7 @@ export default c.router({
         method: "GET",
         path: "/console/output",
         query: z.object({
-            serverId: serverIdSchema,
+            serverPublicId: serverPublicIdSchema,
         }),
         responses: {
             200: apiSuccess(

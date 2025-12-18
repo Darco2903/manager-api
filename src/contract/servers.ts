@@ -3,7 +3,7 @@ import { z } from "zod";
 import { apiError, apiSuccess } from "../types.js";
 import {
     errorServerNotFoundSchema,
-    serverIdSchema,
+    serverPublicIdSchema,
     serverListEntrySchema,
     serverInfoSchema,
     serverLogEntrySchema,
@@ -31,10 +31,10 @@ export default c.router({
 
     info: {
         method: "GET",
-        path: "/servers/info/:serverId",
+        path: "/servers/info/:serverPublicId",
         description: "Get information about a specific server",
         pathParams: z.object({
-            serverId: serverIdSchema,
+            serverPublicId: serverPublicIdSchema,
         }),
         responses: {
             200: apiSuccess(
@@ -52,10 +52,10 @@ export default c.router({
 
     status: {
         method: "GET",
-        path: "/servers/status/:serverId",
+        path: "/servers/status/:serverPublicId",
         description: "Get the status of a specific server",
         pathParams: z.object({
-            serverId: serverIdSchema,
+            serverPublicId: serverPublicIdSchema,
         }),
         responses: {
             200: apiSuccess(
@@ -73,10 +73,10 @@ export default c.router({
 
     listLogs: {
         method: "GET",
-        path: "/servers/:serverId/logs",
+        path: "/servers/:serverPublicId/logs",
         description: "Get logs for a specific server",
         pathParams: z.object({
-            serverId: serverIdSchema,
+            serverPublicId: serverPublicIdSchema,
         }),
         responses: {
             200: apiSuccess(
@@ -94,10 +94,10 @@ export default c.router({
 
     users: {
         method: "GET",
-        path: "/servers/:serverId/users",
+        path: "/servers/:serverPublicId/users",
         description: "Get users with access to a specific server",
         pathParams: z.object({
-            serverId: serverIdSchema,
+            serverPublicId: serverPublicIdSchema,
         }),
         responses: {
             200: apiSuccess(
@@ -115,10 +115,10 @@ export default c.router({
 
     start: {
         method: "POST",
-        path: "/servers/start/:serverId",
+        path: "/servers/start/:serverPublicId",
         description: "Start a specific server",
         pathParams: z.object({
-            serverId: serverIdSchema,
+            serverPublicId: serverPublicIdSchema,
         }),
         body: z.undefined(),
         responses: {
@@ -138,10 +138,10 @@ export default c.router({
 
     stop: {
         method: "POST",
-        path: "/servers/stop/:serverId",
+        path: "/servers/stop/:serverPublicId",
         description: "Stop a specific server",
         pathParams: z.object({
-            serverId: serverIdSchema,
+            serverPublicId: serverPublicIdSchema,
         }),
         body: z.undefined(),
         responses: {
@@ -161,10 +161,10 @@ export default c.router({
 
     restart: {
         method: "POST",
-        path: "/servers/restart/:serverId",
+        path: "/servers/restart/:serverPublicId",
         description: "Restart a specific server",
         pathParams: z.object({
-            serverId: serverIdSchema,
+            serverPublicId: serverPublicIdSchema,
         }),
         body: z.undefined(),
         responses: {

@@ -2,30 +2,30 @@ import type { STD } from "../common.js";
 
 export interface SocketClientToServerConsole {
     consoleStreamInit: (
-        serverId: string,
+        serverPublicId: string,
         numberOfLines: number | undefined,
         callback: (success: boolean) => void
     ) => void;
 
     consoleStreamClose: (
-        serverId: string,
+        serverPublicId: string,
         callback: (success: boolean) => void
     ) => void;
 
     consoleCommand: (
-        serverId: string,
+        serverPublicId: string,
         command: string,
         callback: (success: boolean) => void
     ) => void;
 
     consoleAutocomplete: (
-        serverId: string,
+        serverPublicId: string,
         command: string,
         callback: (suggestions: string[]) => void
     ) => void;
 }
 
 export interface SocketServerToClientConsole {
-    consoleStream: (serverId: string, type: STD, data: string) => void;
-    consoleStreamClosed: (serverId: string) => void;
+    consoleStream: (serverPublicId: string, type: STD, data: string) => void;
+    consoleStreamClosed: (serverPublicId: string) => void;
 }

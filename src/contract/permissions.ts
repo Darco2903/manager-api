@@ -8,7 +8,7 @@ const c = initContract();
 export default c.router({
     getUserServerPermissions: {
         method: "GET",
-        path: "/permissions/user/:userPubId/server/:serverPubId",
+        path: "/permissions/user/:userPublicId/server/:serverPublicId",
         description: "Get user server permissions",
         responses: {
             200: apiSuccess(userServerPermissionsSchema),
@@ -21,6 +21,14 @@ export default c.router({
         method: "PATCH",
         path: "/permissions/user/server",
         description: "Set user server permissions",
+        query: z.object({
+            softUpdate: z.coerce
+                .boolean()
+                .default(false)
+                .describe(
+                    "If true, will only add new permissions, not remove existing ones"
+                ),
+        }),
         body: userServerPermissionsSchema,
         responses: {
             200: apiSuccess(z.object({})),

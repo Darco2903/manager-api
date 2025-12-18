@@ -4,7 +4,7 @@ import { systemdStatusSchema } from "./systemd.js";
 
 export type STD = "stdout" | "stderr";
 
-export const serverIdSchema = z.string().length(8);
+export const serverPublicIdSchema = z.string().length(8);
 
 export const errorServerNotFoundSchema = apiError(
     z.literal("NOT_FOUND"),
@@ -21,7 +21,7 @@ export const serverStatusSchema = z.enum([
 export type ServerStatus = z.infer<typeof serverStatusSchema>;
 
 export const serverListEntrySchema = z.object({
-    public_id: serverIdSchema,
+    public_id: serverPublicIdSchema,
     name: z.string(),
     status: serverStatusSchema,
     serviceStatus: systemdStatusSchema,

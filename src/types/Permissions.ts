@@ -43,8 +43,8 @@ export const permissionSchema = z.union([
 export type Permission = z.infer<typeof permissionSchema>;
 
 export const userServerPermissionsSchema = z.object({
-    userId: z.string(),
-    serverId: z.string(),
+    userPublicId: z.string(),
+    serverPublicId: z.string(),
     permissions: z.array(permissionServerSchema),
 });
 
