@@ -1,21 +1,11 @@
 import z from "zod";
 
 export const permissionUserSchema = z.enum([
-    "USER_CREATE_GROUP",
+    //
     "USER_CREATE_SERVER",
 ]);
 
 export type PermissionUser = z.infer<typeof permissionUserSchema>;
-
-export const permissionGroupSchema = z.enum([
-    "GROUP_ADMIN",
-    "GROUP_EDIT",
-    "GROUP_DELETE",
-    "GROUP_ADD_USER",
-    "GROUP_REMOVE_USER",
-]);
-
-export type PermissionGroup = z.infer<typeof permissionGroupSchema>;
 
 export const permissionServerSchema = z.enum([
     "SERVER_ADMIN",
@@ -36,7 +26,6 @@ export type PermissionServer = z.infer<typeof permissionServerSchema>;
 
 export const permissionSchema = z.union([
     permissionUserSchema,
-    permissionGroupSchema,
     permissionServerSchema,
 ]);
 
