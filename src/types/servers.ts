@@ -1,6 +1,7 @@
 import z from "zod";
 import { apiError } from "../types.js";
 import { systemdStatusSchema } from "./systemd.js";
+import { userServerPermissionsSchema } from "./permissions.js";
 
 export type STD = "stdout" | "stderr";
 
@@ -26,6 +27,7 @@ export const serverListEntrySchema = z.object({
     status: serverStatusSchema,
     serviceStatus: systemdStatusSchema,
     gameName: z.string(),
+    ownerPublicId: z.string(),
 });
 
 export type ServerListEntry = z.infer<typeof serverListEntrySchema>;
@@ -46,3 +48,10 @@ export const serverLogEntrySchema = z.object({
 });
 
 export type ServerLogEntry = z.infer<typeof serverLogEntrySchema>;
+
+export const serverContextSchema = z.object({
+    server: serverInfoSchema,
+    permissions: userServerPermissionsSchema,
+});
+
+export type ServerContext = z.infer<typeof serverContextSchema>;

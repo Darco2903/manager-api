@@ -7,8 +7,9 @@ import {
     serverListEntrySchema,
     serverInfoSchema,
     serverLogEntrySchema,
-} from "../types/servers.js";
-import { systemdStatusSchema } from "../common.js";
+    systemdStatusSchema,
+    serverContextSchema,
+} from "../types/index.js";
 
 const c = initContract();
 
@@ -42,6 +43,23 @@ export default c.router({
                     server: serverInfoSchema,
                 })
             ),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
+            404: errorServerNotFoundSchema,
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
+    context: {
+        method: "GET",
+        path: "/servers/:serverPublicId/context",
+        description: "Get the context of a specific server",
+        pathParams: z.object({
+            serverPublicId: serverPublicIdSchema,
+        }),
+        responses: {
+            200: apiSuccess(serverContextSchema),
             400: ZodErrorSchema,
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
