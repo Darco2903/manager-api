@@ -24,6 +24,7 @@
         "clean": "rimraf -g dist darco2903-manager-api-*.tgz openapi.json"
     },
     "dependencies": {
+        "@darco2903/auth-api": "2.0.3-pre.0",
         "@ts-rest/core": "^3.52.1",
         "@ts-rest/open-api": "^3.52.1",
         "jsonwebtoken": "^9.0.2",

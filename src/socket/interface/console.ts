@@ -1,4 +1,4 @@
-import type { STD } from "../common.js";
+import type { STD } from "../../common.js";
 
 export interface SocketClientToServerConsole {
     consoleStreamInit: (

@@ -1,11 +1,10 @@
 import z from "zod";
 import { apiError } from "../types.js";
 import { systemdStatusSchema } from "./systemd.js";
+import { serverPublicIdSchema } from "./global.js";
 import { userServerPermissionsSchema } from "./permissions.js";
 
 export type STD = "stdout" | "stderr";
-
-export const serverPublicIdSchema = z.string().length(8);
 
 export const errorServerNotFoundSchema = apiError(
     z.literal("NOT_FOUND"),

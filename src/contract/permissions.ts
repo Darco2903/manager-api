@@ -1,7 +1,11 @@
 import { initContract } from "@ts-rest/core";
-import { z } from "zod";
+import z from "zod";
+import { userPublicIdSchema } from "@darco2903/auth-api/client";
 import { apiError, apiSuccess } from "../types.js";
-import { userServerPermissionsSchema } from "../types/index.js";
+import {
+    serverPublicIdSchema,
+    userServerPermissionsSchema,
+} from "../types/index.js";
 
 const c = initContract();
 
@@ -35,6 +39,10 @@ export default c.router({
     getUserServerPermissions: {
         method: "GET",
         path: "/permissions/user/:userPublicId/server/:serverPublicId",
+        pathParams: z.object({
+            userPublicId: userPublicIdSchema,
+            serverPublicId: serverPublicIdSchema,
+        }),
         description: "Get user server permissions",
         responses: {
             200: apiSuccess(userServerPermissionsSchema),

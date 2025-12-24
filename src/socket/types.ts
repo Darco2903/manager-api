@@ -1,18 +1,8 @@
-import {
-    SocketClientToServerConsole,
-    SocketServerToClientConsole,
-} from "./console.js";
-import {
-    SocketClientToServerServer,
-    SocketServerToClientServer,
-} from "./server.js";
+import type { Socket as ClientSocket } from "socket.io-client";
 
-export interface ClientToServerEvents
-    //
-    extends SocketClientToServerConsole,
-        SocketClientToServerServer {}
+import {
+    ManagerClientToServerEvents as ClientToServer,
+    ManagerServerToClientEvents as ServerToClient,
+} from "./interface/index.js";
 
-export interface ServerToClientEvents
-    //
-    extends SocketServerToClientConsole,
-        SocketServerToClientServer {}
+export type ManagerClientSocket = ClientSocket<ServerToClient, ClientToServer>;

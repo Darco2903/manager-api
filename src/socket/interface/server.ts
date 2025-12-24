@@ -1,4 +1,4 @@
-import type { ActiveState } from "../common.js";
+import type { ActiveState } from "../../common.js";
 
 export interface SocketClientToServerServer {
     serverInfoInit: (

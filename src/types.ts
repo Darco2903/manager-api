@@ -1,6 +1,5 @@
-import { z, ZodType } from "zod";
+import { z, type ZodType } from "zod";
 
-// export const apiSuccess = <T>(schema: ZodType<T>) => schema;
 export const apiSuccess = <T>(schema: T) => schema;
 
 export const apiError = <T, U>(code: ZodType<T>, error: ZodType<U>) =>

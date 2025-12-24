@@ -1,4 +1,6 @@
 import z from "zod";
+import { userPublicIdSchema } from "@darco2903/auth-api/client";
+import { serverPublicIdSchema } from "./global.js";
 
 export const permissionUserSchema = z.enum([
     //
@@ -32,8 +34,8 @@ export const permissionSchema = z.union([
 export type Permission = z.infer<typeof permissionSchema>;
 
 export const userServerPermissionsSchema = z.object({
-    userPublicId: z.string(),
-    serverPublicId: z.string(),
+    userPublicId: userPublicIdSchema,
+    serverPublicId: serverPublicIdSchema,
     permissions: z.array(permissionServerSchema),
 });
 
