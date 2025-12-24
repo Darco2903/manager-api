@@ -1,0 +1,40 @@
+import z from "zod";
+
+export const permissionUserSchema = z.enum([
+    //
+    "USER_CREATE_SERVER",
+]);
+
+export type PermissionUser = z.infer<typeof permissionUserSchema>;
+
+export const permissionServerSchema = z.enum([
+    "SERVER_ADMIN",
+    "SERVER_DELETE",
+    "SERVER_VIEW",
+    "SERVER_START",
+    "SERVER_STOP_RESTART",
+    "SERVER_CONSOLE",
+    "SERVER_LOGS",
+    "SERVER_METRICS",
+    "SERVER_SETTINGS",
+    "SERVER_FILES",
+    "SERVER_BACKUP",
+    "SERVER_RESTORE",
+]);
+
+export type PermissionServer = z.infer<typeof permissionServerSchema>;
+
+export const permissionSchema = z.union([
+    permissionUserSchema,
+    permissionServerSchema,
+]);
+
+export type Permission = z.infer<typeof permissionSchema>;
+
+export const userServerPermissionsSchema = z.object({
+    userPublicId: z.string(),
+    serverPublicId: z.string(),
+    permissions: z.array(permissionServerSchema),
+});
+
+export type UserServerPermissions = z.infer<typeof userServerPermissionsSchema>;
