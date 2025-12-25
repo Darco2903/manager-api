@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@darco2903/auth-api':
-        specifier: 2.0.3-pre.0
-        version: 2.0.3-pre.0(@types/node@24.8.1)
+        specifier: 2.0.3
+        version: 2.0.3(@types/node@24.8.1)
       '@ts-rest/core':
         specifier: ^3.52.1
         version: 3.52.1(@types/node@24.8.1)(zod@3.25.76)
@@ -54,11 +54,8 @@ packages:
       openapi3-ts: ^2.0.0 || ^3.0.0
       zod: ^3.20.0
 
-  '@darco2903/auth-api@2.0.2':
-    resolution: {integrity: sha512-eRPc0vzvZPpkN+DPtrvKcXGVKiM7sFOZUnbBjEH64RLvriL3Cxe7xZYNT1U8Yk8+2MejvhDcbUN+xI6uxiHERQ==, tarball: https://npm.pkg.github.com/download/@darco2903/auth-api/2.0.2/7669e3863a37cd5073a815a1205b208445b9a67a}
-
-  '@darco2903/auth-api@2.0.3-pre.0':
-    resolution: {integrity: sha512-dYPe8/Y0PbbVe5w5CfOkgLELsxPFil+BwA5Rgo2HQ3kevvMbhY4OfCJK0lOk8nUi0fXCsHFo/b/ANVMo43oLSQ==, tarball: https://npm.pkg.github.com/download/@darco2903/auth-api/2.0.3-pre.0/2a0fe53374eb070c599e3b0dd99ad9da9715792d}
+  '@darco2903/auth-api@2.0.3':
+    resolution: {integrity: sha512-6N3Gj2R8T9/ox79tsF2xP/hpbq/VRqSl6nVeAWjrRasM3XsTYLKBj1db5mJvdG8mqjB+m9gJuszOhI6KJav61A==, tarball: https://npm.pkg.github.com/download/@darco2903/auth-api/2.0.3/1608b7a4071916e29e855511c749623b91db65d2}
 
   '@darco2903/cdn-api@1.0.5':
     resolution: {integrity: sha512-NL1CjBnFpMqduwV9fbZRtltLdxcazPfJgXGDzNH5ElnZoo37qu6DBd+0fDg7Bd8NwImizUGOw8jwjIUArGdrxg==, tarball: https://npm.pkg.github.com/download/@darco2903/cdn-api/1.0.5/b06153cba1cc1a86b19895aedba86dbe92322cad}
@@ -641,22 +638,7 @@ snapshots:
       ts-deepmerge: 6.2.1
       zod: 3.25.76
 
-  '@darco2903/auth-api@2.0.2(@types/node@24.8.1)':
-    dependencies:
-      '@darco2903/cdn-api': 1.0.5(@types/node@24.8.1)
-      '@ts-rest/core': 3.52.1(@types/node@24.8.1)(zod@3.25.76)
-      '@ts-rest/open-api': 3.52.1(@ts-rest/core@3.52.1(@types/node@24.8.1)(zod@3.25.76))(zod@3.25.76)
-      jsonwebtoken: 9.0.3
-      neverthrow: 8.2.0
-      zod: 3.25.76
-    transitivePeerDependencies:
-      - '@types/node'
-      - bufferutil
-      - debug
-      - supports-color
-      - utf-8-validate
-
-  '@darco2903/auth-api@2.0.3-pre.0(@types/node@24.8.1)':
+  '@darco2903/auth-api@2.0.3(@types/node@24.8.1)':
     dependencies:
       '@darco2903/cdn-api': 1.0.5(@types/node@24.8.1)
       '@ts-rest/core': 3.52.1(@types/node@24.8.1)(zod@3.25.76)
@@ -673,7 +655,7 @@ snapshots:
 
   '@darco2903/cdn-api@1.0.5(@types/node@24.8.1)':
     dependencies:
-      '@darco2903/auth-api': 2.0.2(@types/node@24.8.1)
+      '@darco2903/auth-api': 2.0.3(@types/node@24.8.1)
       '@ts-rest/core': 3.52.1(@types/node@24.8.1)(zod@3.25.76)
       '@ts-rest/open-api': 3.52.1(@ts-rest/core@3.52.1(@types/node@24.8.1)(zod@3.25.76))(zod@3.25.76)
       axios: 1.13.2

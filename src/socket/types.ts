@@ -1,5 +1,4 @@
 import type { Socket as ClientSocket } from "socket.io-client";
-
 import {
     ManagerClientToServerEvents as ClientToServer,
     ManagerServerToClientEvents as ServerToClient,
