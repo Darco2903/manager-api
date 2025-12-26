@@ -6,7 +6,7 @@ import { appOverviewSchema } from "../types/index.js";
 const c = initContract();
 
 export default c.router({
-    info: {
+    overview: {
         method: "GET",
         path: "/app/overview",
         description: "Get application overview information",
