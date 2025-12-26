@@ -33,9 +33,9 @@ export type ServerListEntry = z.infer<typeof serverListEntrySchema>;
 
 export const serverInfoSchema = serverListEntrySchema.extend({
     ip: z.string(),
-    startTime: z.date().nullable(),
-    created_at: z.date(),
-    updated_at: z.date(),
+    startTime: z.coerce.date().nullable(),
+    created_at: z.coerce.date(),
+    updated_at: z.coerce.date(),
 });
 
 export type ServerInfo = z.infer<typeof serverInfoSchema>;
@@ -43,7 +43,7 @@ export type ServerInfo = z.infer<typeof serverInfoSchema>;
 export const serverLogEntrySchema = z.object({
     name: z.string(),
     size: z.number(),
-    updated_at: z.date(),
+    updated_at: z.coerce.date(),
 });
 
 export type ServerLogEntry = z.infer<typeof serverLogEntrySchema>;
