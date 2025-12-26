@@ -33,20 +33,37 @@ export type ServerListEntry = z.infer<typeof serverListEntrySchema>;
 
 export const serverInfoSchema = serverListEntrySchema.extend({
     ip: z.string(),
-    startTime: z.coerce.date().nullable(),
-    created_at: z.coerce.date(),
-    updated_at: z.coerce.date(),
+    startTime: z.string().datetime().nullable(),
+    created_at: z.string().datetime(),
+    updated_at: z.string().datetime(),
 });
 
 export type ServerInfo = z.infer<typeof serverInfoSchema>;
 
+export const serverInfoParsedSchema = serverListEntrySchema.extend({
+    ip: z.string(),
+    startTime: z.date().nullable(),
+    created_at: z.date(),
+    updated_at: z.date(),
+});
+
+export type ServerInfoParsed = z.infer<typeof serverInfoParsedSchema>;
+
 export const serverLogEntrySchema = z.object({
     name: z.string(),
     size: z.number(),
-    updated_at: z.coerce.date(),
+    updated_at: z.string().datetime(),
 });
 
 export type ServerLogEntry = z.infer<typeof serverLogEntrySchema>;
+
+export const serverLogEntryParsedSchema = z.object({
+    name: z.string(),
+    size: z.number(),
+    updated_at: z.date(),
+});
+
+export type ServerLogEntryParsed = z.infer<typeof serverLogEntryParsedSchema>;
 
 export const serverContextSchema = z.object({
     server: serverInfoSchema,
@@ -54,3 +71,10 @@ export const serverContextSchema = z.object({
 });
 
 export type ServerContext = z.infer<typeof serverContextSchema>;
+
+export const serverContextParsedSchema = z.object({
+    server: serverInfoParsedSchema,
+    permissions: userServerPermissionsSchema,
+});
+
+export type ServerContextParsed = z.infer<typeof serverContextParsedSchema>;
