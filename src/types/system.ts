@@ -16,9 +16,9 @@ export const memoryInfoSchema = z.object({
 
 export type MemoryInfo = z.infer<typeof memoryInfoSchema>;
 
-export const SystemInfoSchema = z.object({
+export const systemInfoSchema = z.object({
     memory: memoryInfoSchema,
     cpu: cpuInfoSchema,
 });
 
-export type SystemInfo = z.infer<typeof SystemInfoSchema>;
+export type SystemInfo = z.infer<typeof systemInfoSchema>;
