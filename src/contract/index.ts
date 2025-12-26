@@ -4,7 +4,7 @@ import { API_PATH_PREFIX } from "../consts.js";
 import console from "./console.js";
 import servers from "./servers.js";
 import permissions from "./permissions.js";
-import systemInfo from "./systemInfo.js";
+import system from "./system.js";
 
 const c = initContract();
 
@@ -13,7 +13,7 @@ export default c.router(
         console,
         servers,
         permissions,
-        ...systemInfo,
+        system,
     },
     {
         pathPrefix: API_PATH_PREFIX,

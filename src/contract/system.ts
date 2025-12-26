@@ -6,7 +6,7 @@ import { SystemInfoSchema } from "../types/systemInfo.js";
 const c = initContract();
 
 export default c.router({
-    systemInfo: {
+    info: {
         method: "GET",
         path: "/sys-info",
         description: "Get system information",
