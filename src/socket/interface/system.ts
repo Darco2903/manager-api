@@ -1,8 +1,8 @@
 import type { SystemInfo } from "../../types/index.js";
 
 export interface SocketClientToServerSystem {
-    systemInfoSubscribe: (callback: (success: true) => void) => void;
-    systemInfoUnsubscribe: (callback: (success: true) => void) => void;
+    systemInfoSubscribe: (callback: (success: boolean) => void) => void;
+    systemInfoUnsubscribe: (callback: (success: boolean) => void) => void;
 }
 
 export interface SocketServerToClientSystem {
