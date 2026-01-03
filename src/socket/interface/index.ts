@@ -6,13 +6,19 @@ import {
     SocketClientToServerServer,
     SocketServerToClientServer,
 } from "./server.js";
+import {
+    SocketClientToServerSystem,
+    SocketServerToClientSystem,
+} from "./system.js";
 
 export interface ManagerClientToServerEvents
     //
     extends SocketClientToServerConsole,
-        SocketClientToServerServer {}
+        SocketClientToServerServer,
+        SocketClientToServerSystem {}
 
 export interface ManagerServerToClientEvents
     //
     extends SocketServerToClientConsole,
-        SocketServerToClientServer {}
+        SocketServerToClientServer,
+        SocketServerToClientSystem {}
