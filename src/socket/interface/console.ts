@@ -1,13 +1,13 @@
 import type { STD } from "../../types/index.js";
 
 export interface SocketClientToServerConsole {
-    consoleStreamInit: (
+    consoleStreamSubscribe: (
         serverPublicId: string,
         numberOfLines: number | undefined,
         callback: (success: boolean) => void
     ) => void;
 
-    consoleStreamClose: (
+    consoleStreamUnsubscribe: (
         serverPublicId: string,
         callback: (success: boolean) => void
     ) => void;
@@ -18,11 +18,11 @@ export interface SocketClientToServerConsole {
         callback: (success: boolean) => void
     ) => void;
 
-    consoleAutocomplete: (
-        serverPublicId: string,
-        command: string,
-        callback: (suggestions: string[]) => void
-    ) => void;
+    // consoleAutocomplete: (
+    //     serverPublicId: string,
+    //     command: string,
+    //     callback: (suggestions: string[]) => void
+    // ) => void;
 }
 
 export interface SocketServerToClientConsole {
