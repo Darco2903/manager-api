@@ -2,24 +2,21 @@
 
 ## Description
 
-This API is a TypeScript client for the Darco2903 server manager.
+This package provides an API for interacting with Darco2903's game server manager, including features such as server status, console access, and more. It include only client utilities to facilitate the integration of the API across multiple applications.
 
 ## Installation
 
 ```bash
-npm install manager-api-<version>.tgz
-npm install @ts-rest/core zod@3.22.3
+npm install @darco2903/manager-api
 ```
 
 ## Usage
 
-Create an instance of the API
+### Creating a client
 
 ```ts
-import { initClient } from "@ts-rest/core";
-import { contract } from "manager-api";
+import { createClient } from "@darco2903/manager-api/client";
 
-const api = initClient(contract, {
-    baseUrl: "https://api.example.com",
-});
+const SERVER_ORIGIN = "https://manager.example.com";
+const managerApi = createClient(SERVER_ORIGIN);
 ```
