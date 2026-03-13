@@ -13,12 +13,14 @@ import {
 
 export interface ManagerClientToServerEvents
     //
-    extends SocketClientToServerConsole,
+    extends
+        SocketClientToServerConsole,
         SocketClientToServerServer,
         SocketClientToServerSystem {}
 
 export interface ManagerServerToClientEvents
     //
-    extends SocketServerToClientConsole,
+    extends
+        SocketServerToClientConsole,
         SocketServerToClientServer,
         SocketServerToClientSystem {}

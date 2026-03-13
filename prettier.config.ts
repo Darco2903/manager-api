@@ -1,8 +1,6 @@
-/**
- * @see https://prettier.io/docs/configuration
- * @type {import("prettier").Config}
- */
-const config = {
+import type { Config } from "prettier";
+
+const config: Config = {
     trailingComma: "es5",
     tabWidth: 4,
     semi: true,
