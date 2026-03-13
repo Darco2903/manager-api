@@ -6,11 +6,11 @@ on:
       - "v*" # Trigger on version tags
 
 permissions:
+  id-token: write
   contents: write
-  packages: write
 
 env:
-  PNPM_VERSION: "10.25.0"
+  PNPM_VERSION: "10.32.1"
   TARBALL_NAME: "darco2903-manager-api"
 
 jobs:
@@ -25,6 +25,7 @@ jobs:
         run: |
           TAG_VERSION="${GITHUB_REF_NAME#v}"
           PKG_VERSION=$(node -p "require('./package.json').version")
+          PNPM_VERSION=$(node -p "require('./package.json').packageManager.split('@')[1]")
 
           echo "Tag version: $TAG_VERSION"
           echo "Package version: $PKG_VERSION"
@@ -34,58 +35,25 @@ jobs:
             exit 1
           fi
 
-  #
-
-  # test:
-  #   needs: check
-  #   runs-on: ${{ matrix.os }}
-
-  #   strategy:
-  #     matrix:
-  #       os: [ubuntu-latest]
-  #       node-version: [24]
-
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v5
-
-  #     - name: Install pnpm
-  #       uses: pnpm/action-setup@v4
-  #       with:
-  #         version: "${{ env.PNPM_VERSION }}"
-
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #         cache: "pnpm"
-  #         registry-url: https://npm.pkg.github.com
-
-  #     - name: Install dependencies
-  #       run: pnpm install --frozen-lockfile
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
-
-  #     - name: Run tests
-  #       run: pnpm test
+          if [ "$PNPM_VERSION" != "${{ env.PNPM_VERSION }}" ]; then
+            echo "❌ package.json specifies pnpm version $PNPM_VERSION, expected ${{ env.PNPM_VERSION }}"
+            exit 1
+          fi
 
   #
 
-  release:
-    needs: [check]
-    runs-on: ubuntu-latest
+  test:
+    needs: check
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
+        os: [ubuntu-latest]
         node-version: [24]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-
-      - name: Get version
-        id: version
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -97,18 +65,45 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
-          registry-url: https://npm.pkg.github.com
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
 
-      - name: Create tarball
+      - name: Run tests
+        run: pnpm test
+
+  #
+
+  release:
+    needs: [check, test]
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [24]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "${{ env.PNPM_VERSION }}"
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Pack project
         run: pnpm pack
 
-      - name: Create GitHub Release
-        if: "!contains(steps.version.outputs.version, '-')"
+      - name: Upload release asset
         uses: softprops/action-gh-release@v2
         with:
           files: "${{ env.TARBALL_NAME }}-*.tgz"
@@ -116,13 +111,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish to GitHub Packages
+      - name: Publish to NPM
         shell: bash
-        run: |
-          if [[ "${{ steps.version.outputs.version }}" == *"-"* ]]; then
-            pnpm publish --tag next --access public --no-git-checks
-          else
-            pnpm publish --access public --no-git-checks
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
+        run: pnpm publish --access public --no-git-checks
