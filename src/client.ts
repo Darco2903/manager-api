@@ -14,5 +14,10 @@ export function createClient(origin: string) {
 export function createSocket(origin: string): ManagerClientSocket {
     return io(origin, {
         autoConnect: true,
+        reconnection: true,
+        reconnectionAttempts: Infinity,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
+        randomizationFactor: 0.5,
     });
 }
