@@ -1,5 +1,7 @@
 # Manager API
 
+[![npm](https://img.shields.io/npm/v/@darco2903/manager-api)](https://www.npmjs.com/package/@darco2903/manager-api)
+
 ## Description
 
 This package provides an API for interacting with Darco2903's game server manager, including features such as server status, console access, and more. It include only client utilities to facilitate the integration of the API across multiple applications.
