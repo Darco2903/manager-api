@@ -1,12 +1,16 @@
 import { initContract, ZodErrorSchema } from "@ts-rest/core";
 import z from "zod";
 import { apiError, apiSuccess } from "../types.js";
+import { LOG_PAGE_LINES_DEFAULT, LOG_PAGE_LINES_MAX } from "../consts.js";
 import {
     errorServerNotFoundSchema,
+    errorLogNotFoundSchema,
     serverPublicIdSchema,
     serverListEntrySchema,
     serverInfoSchema,
     serverLogEntrySchema,
+    serverLogNameSchema,
+    serverLogPageSchema,
     systemdStatusSchema,
     serverContextSchema,
 } from "../types/index.js";
@@ -106,6 +110,61 @@ export default c.router({
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
             404: errorServerNotFoundSchema,
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
+    readLog: {
+        method: "GET",
+        path: "/servers/:serverPublicId/logs/:logName",
+        description: "Read the lines of a log, from the end",
+        pathParams: z.object({
+            serverPublicId: serverPublicIdSchema,
+            logName: serverLogNameSchema,
+        }),
+        query: z.object({
+            before: z.coerce
+                .number()
+                .int()
+                .nonnegative()
+                .optional()
+                .describe(
+                    "Byte offset to read before, the start of the previous page. Default: the end of the file"
+                ),
+            lines: z.coerce
+                .number()
+                .int()
+                .min(1)
+                .max(LOG_PAGE_LINES_MAX)
+                .default(LOG_PAGE_LINES_DEFAULT),
+        }),
+        responses: {
+            200: apiSuccess(serverLogPageSchema),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
+            404: z.union([errorServerNotFoundSchema, errorLogNotFoundSchema]),
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
+    downloadLog: {
+        method: "GET",
+        path: "/servers/:serverPublicId/logs/:logName/download",
+        description: "Download a log file",
+        pathParams: z.object({
+            serverPublicId: serverPublicIdSchema,
+            logName: serverLogNameSchema,
+        }),
+        responses: {
+            200: c.otherResponse({
+                contentType: "text/plain",
+                body: c.type<Blob>(),
+            }),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
+            404: z.union([errorServerNotFoundSchema, errorLogNotFoundSchema]),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },

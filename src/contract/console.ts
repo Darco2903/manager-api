@@ -26,23 +26,4 @@ export default c.router({
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
-    output: {
-        method: "GET",
-        path: "/console/output",
-        query: z.object({
-            serverPublicId: serverPublicIdSchema,
-        }),
-        responses: {
-            200: apiSuccess(
-                z.object({
-                    data: z.string(),
-                })
-            ),
-            400: ZodErrorSchema,
-            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
-            403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
-            404: errorServerNotFoundSchema,
-            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
-        },
-    },
 });

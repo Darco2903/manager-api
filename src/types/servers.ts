@@ -49,21 +49,46 @@ export const serverInfoParsedSchema = serverListEntrySchema.extend({
 
 export type ServerInfoParsed = z.infer<typeof serverInfoParsedSchema>;
 
+/** A file name of the server's log folder: no path, no hidden file */
+export const serverLogNameSchema = z
+    .string()
+    .max(255)
+    .regex(/^[^./\\][^/\\]*$/);
+
 export const serverLogEntrySchema = z.object({
-    name: z.string(),
+    name: serverLogNameSchema,
     size: z.number(),
     updated_at: z.string().datetime(),
+    /** The log of the running or last session, the others are its copies */
+    current: z.boolean(),
 });
 
 export type ServerLogEntry = z.infer<typeof serverLogEntrySchema>;
 
 export const serverLogEntryParsedSchema = z.object({
-    name: z.string(),
+    name: serverLogNameSchema,
     size: z.number(),
     updated_at: z.date(),
+    current: z.boolean(),
 });
 
 export type ServerLogEntryParsed = z.infer<typeof serverLogEntryParsedSchema>;
+
+export const errorLogNotFoundSchema = apiError(
+    z.literal("NOT_FOUND"),
+    z.literal("Log not found")
+);
+
+/** Lines read backwards from a byte offset: the logs only grow, the offsets stay valid */
+export const serverLogPageSchema = z.object({
+    lines: z.array(z.string()),
+    /** Byte offset of the first line, the `before` of the previous page. 0: no older lines */
+    start: z.number().int().nonnegative(),
+    /** Size of the file when it was read */
+    size: z.number().int().nonnegative(),
+});
+
+export type ServerLogPage = z.infer<typeof serverLogPageSchema>;
 
 export const serverContextSchema = z.object({
     server: serverInfoSchema,
