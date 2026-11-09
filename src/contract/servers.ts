@@ -5,6 +5,9 @@ import { LOG_PAGE_LINES_DEFAULT, LOG_PAGE_LINES_MAX } from "../consts.js";
 import {
     errorServerNotFoundSchema,
     errorLogNotFoundSchema,
+    errorServerStatusSchema,
+    errorServerRunningSchema,
+    serverStatusSchema,
     serverPublicIdSchema,
     serverListEntrySchema,
     serverInfoSchema,
@@ -190,6 +193,32 @@ export default c.router({
         },
     },
 
+    setStatus: {
+        method: "PUT",
+        path: "/servers/:serverPublicId/status",
+        description:
+            "Set the status of a server: SERVER_ADMIN, the app admins only for locked. archived and updating need the server stopped",
+        pathParams: z.object({
+            serverPublicId: serverPublicIdSchema,
+        }),
+        body: z.object({
+            status: serverStatusSchema,
+        }),
+        responses: {
+            200: apiSuccess(
+                z.object({
+                    status: serverStatusSchema,
+                })
+            ),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
+            404: errorServerNotFoundSchema,
+            409: errorServerRunningSchema,
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
+
     start: {
         method: "POST",
         path: "/servers/start/:serverPublicId",
@@ -209,7 +238,10 @@ export default c.router({
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
             404: errorServerNotFoundSchema,
-            409: apiError(z.literal("INSUFFICIENT_MEMORY"), z.string()),
+            409: z.union([
+                apiError(z.literal("INSUFFICIENT_MEMORY"), z.string()),
+                errorServerStatusSchema,
+            ]),
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
@@ -233,6 +265,7 @@ export default c.router({
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
             404: errorServerNotFoundSchema,
+            409: errorServerStatusSchema,
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
@@ -256,6 +289,7 @@ export default c.router({
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
             404: errorServerNotFoundSchema,
+            409: errorServerStatusSchema,
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },

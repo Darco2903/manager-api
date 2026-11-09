@@ -1,5 +1,5 @@
 import z from "zod";
-import { apiError } from "../types.js";
+import { apiError, apiErrorData } from "../types.js";
 import { systemdStatusSchema } from "./systemd.js";
 import { serverPublicIdSchema } from "./global.js";
 import { userServerPermissionsSchema } from "./permissions.js";
@@ -11,14 +11,39 @@ export const errorServerNotFoundSchema = apiError(
     z.literal("Server not found")
 );
 
+/**
+ * Who can act on the server (start, stop, restart, console commands) and who can see it:
+ * - ready: per permissions
+ * - setup, maintenance: act with SERVER_ADMIN only
+ * - updating: act with SERVER_ADMIN only, no start, set while stopped
+ * - private: act and see with SERVER_ADMIN only
+ * - locked: act with the app admins only, who alone set and clear it
+ * - archived: no action, set while stopped
+ */
 export const serverStatusSchema = z.enum([
     //
     "ready",
+    "setup",
     "maintenance",
+    "updating",
+    "private",
+    "locked",
     "archived",
 ]);
 
 export type ServerStatus = z.infer<typeof serverStatusSchema>;
+
+/** The status of the server doesn't allow the action, for this user */
+export const errorServerStatusSchema = apiErrorData(
+    z.literal("SERVER_STATUS"),
+    z.string(),
+    z.object({ status: serverStatusSchema })
+);
+
+export const errorServerRunningSchema = apiError(
+    z.literal("SERVER_RUNNING"),
+    z.literal("The server must be stopped")
+);
 
 export const serverListEntrySchema = z.object({
     public_id: serverPublicIdSchema,

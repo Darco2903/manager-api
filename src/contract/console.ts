@@ -3,6 +3,7 @@ import z from "zod";
 import { apiError, apiSuccess } from "../types.js";
 import {
     errorServerNotFoundSchema,
+    errorServerStatusSchema,
     serverPublicIdSchema,
 } from "../types/index.js";
 
@@ -23,6 +24,7 @@ export default c.router({
             401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
             403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
             404: errorServerNotFoundSchema,
+            409: errorServerStatusSchema,
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
