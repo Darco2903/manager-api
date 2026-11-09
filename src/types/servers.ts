@@ -12,13 +12,13 @@ export const errorServerNotFoundSchema = apiError(
 );
 
 /**
- * Who can act on the server (start, stop, restart, console commands) and who can see it:
+ * Who can act on the server (start, stop, restart, console commands, files) and who can see it:
  * - ready: per permissions
  * - setup, maintenance: act with SERVER_ADMIN only
  * - updating: act with SERVER_ADMIN only, no start, set while stopped
  * - private: act and see with SERVER_ADMIN only
  * - locked: act with the app admins only, who alone set and clear it
- * - archived: no action, set while stopped
+ * - archived: no start or restart, act with SERVER_ADMIN only, files read only, set while stopped
  */
 export const serverStatusSchema = z.enum([
     //
