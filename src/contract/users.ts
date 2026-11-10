@@ -11,7 +11,8 @@ export default c.router({
     list: {
         method: "GET",
         path: "/users",
-        description: "Get the users known to the manager, with their servers and permissions",
+        description:
+            "Get the users known to the manager, with their servers and permissions",
         responses: {
             200: apiSuccess(
                 z.object({

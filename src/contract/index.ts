@@ -8,6 +8,7 @@ import permissions from "./permissions.js";
 import system from "./system.js";
 import files from "./files.js";
 import users from "./users.js";
+import backups from "./backups.js";
 
 const c = initContract();
 
@@ -20,6 +21,7 @@ export default c.router(
         system,
         files,
         users,
+        backups,
     },
     {
         pathPrefix: API_PATH_PREFIX,

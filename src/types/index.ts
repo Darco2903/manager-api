@@ -6,3 +6,4 @@ export * from "./system.js";
 export * from "./permissions.js";
 export * from "./files.js";
 export * from "./users.js";
+export * from "./backups.js";
