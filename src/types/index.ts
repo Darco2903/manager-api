@@ -5,3 +5,4 @@ export * from "./systemd.js";
 export * from "./system.js";
 export * from "./permissions.js";
 export * from "./files.js";
+export * from "./users.js";
