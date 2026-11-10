@@ -47,6 +47,7 @@ export default c.router({
             200: apiSuccess(backupListSchema),
             ...errors,
             404: errorServerNotFoundSchema,
+            409: errorServerStatusSchema,
         },
     },
     create: {
@@ -102,7 +103,7 @@ export default c.router({
                 errorServerNotFoundSchema,
                 errorBackupNotFoundSchema,
             ]),
-            409: errorBackupRunningSchema,
+            409: z.union([errorBackupRunningSchema, errorServerStatusSchema]),
         },
     },
     download: {
@@ -120,6 +121,7 @@ export default c.router({
                 errorServerNotFoundSchema,
                 errorBackupNotFoundSchema,
             ]),
+            409: errorServerStatusSchema,
         },
     },
     setAutoBackup: {
@@ -132,6 +134,7 @@ export default c.router({
             200: apiSuccess(z.object({ enabled: z.boolean() })),
             ...errors,
             404: errorServerNotFoundSchema,
+            409: errorServerStatusSchema,
         },
     },
 });
