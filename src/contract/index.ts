@@ -9,6 +9,7 @@ import system from "./system.js";
 import files from "./files.js";
 import users from "./users.js";
 import backups from "./backups.js";
+import checks from "./checks.js";
 
 const c = initContract();
 
@@ -22,6 +23,7 @@ export default c.router(
         files,
         users,
         backups,
+        checks,
     },
     {
         pathPrefix: API_PATH_PREFIX,
