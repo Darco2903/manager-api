@@ -174,6 +174,54 @@ export const gamePlayerActionSchema = z.discriminatedUnion("action", [
 
 export type GamePlayerAction = z.infer<typeof gamePlayerActionSchema>;
 
+/**
+ * A name of the whitelist, bans or ops: the player may have never joined, the game looks the account
+ * up. Bedrock players (Geyser) have "." or "-"
+ */
+export const gameListPlayerSchema = z
+    .string()
+    .min(1)
+    .max(16)
+    .regex(/^[A-Za-z0-9_.-]+$/);
+
+export const gameListSchema = z.enum([
+    //
+    "whitelist",
+    "bans",
+    "ops",
+]);
+
+export type GameList = z.infer<typeof gameListSchema>;
+
+export const gameWhitelistSchema = z.object({
+    /** Whether only the listed players may join */
+    enabled: z.boolean(),
+    players: z.array(z.string()),
+});
+
+export const gameBanSchema = z.object({
+    name: z.string(),
+    /** null when the game keeps none (Paper, banned without a reason) */
+    reason: z.string().nullable(),
+    /** Who banned them, "Server" for the console and the manager */
+    source: z.string(),
+    /** Unix milliseconds */
+    created: z.number(),
+    /** Unix milliseconds, null for never */
+    expires: z.number().nullable(),
+});
+
+export type GameBan = z.infer<typeof gameBanSchema>;
+
+/** null without the capability of the same name */
+export const gameListsSchema = z.object({
+    whitelist: gameWhitelistSchema.nullable(),
+    bans: z.array(gameBanSchema).nullable(),
+    ops: z.array(z.string()).nullable(),
+});
+
+export type GameLists = z.infer<typeof gameListsSchema>;
+
 /** The server isn't running, or has no ServerManagerAPI (or isn't configured for the manager) */
 export const errorGameUnavailableSchema = apiError(
     z.literal("GAME_UNAVAILABLE"),

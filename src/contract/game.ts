@@ -13,6 +13,10 @@ import {
     gamePlayerInfoSchema,
     gamePlayerActionSchema,
     gameMessageSchema,
+    gameListSchema,
+    gameListPlayerSchema,
+    gameListsSchema,
+    GAME_MESSAGE_MAX_LENGTH,
 } from "../types/index.js";
 
 const c = initContract();
@@ -69,6 +73,74 @@ export default c.router({
         body: gamePlayerActionSchema,
         responses: {
             200: apiSuccess(z.object({})),
+            ...errors,
+            409: errorServerStatusSchema,
+        },
+    },
+
+    lists: {
+        method: "GET",
+        path: "/servers/:serverPublicId/game/lists",
+        description: "Get the whitelist, the bans and the operators",
+        pathParams: z.object({
+            serverPublicId: serverPublicIdSchema,
+        }),
+        responses: {
+            200: apiSuccess(gameListsSchema),
+            ...errors,
+        },
+    },
+
+    setWhitelist: {
+        method: "POST",
+        path: "/servers/:serverPublicId/game/lists/whitelist",
+        description: "Turn the whitelist on or off",
+        pathParams: z.object({
+            serverPublicId: serverPublicIdSchema,
+        }),
+        body: z.object({
+            enabled: z.boolean(),
+        }),
+        responses: {
+            200: apiSuccess(gameListsSchema),
+            ...errors,
+            409: errorServerStatusSchema,
+        },
+    },
+
+    listAdd: {
+        method: "PUT",
+        path: "/servers/:serverPublicId/game/lists/:list/:player",
+        description:
+            "Whitelist, ban (kicks them if online) or op a player, who may have never joined. PLAYER_NOT_FOUND when the game knows no account by this name",
+        pathParams: z.object({
+            serverPublicId: serverPublicIdSchema,
+            list: gameListSchema,
+            player: gameListPlayerSchema,
+        }),
+        body: z.object({
+            /** Bans only, the game's default when missing */
+            reason: z.string().trim().max(GAME_MESSAGE_MAX_LENGTH).optional(),
+        }),
+        responses: {
+            200: apiSuccess(gameListsSchema),
+            ...errors,
+            409: errorServerStatusSchema,
+        },
+    },
+
+    listRemove: {
+        method: "DELETE",
+        path: "/servers/:serverPublicId/game/lists/:list/:player",
+        description: "Remove a player from the whitelist, the bans or the operators",
+        pathParams: z.object({
+            serverPublicId: serverPublicIdSchema,
+            list: gameListSchema,
+            player: gameListPlayerSchema,
+        }),
+        body: z.undefined(),
+        responses: {
+            200: apiSuccess(gameListsSchema),
             ...errors,
             409: errorServerStatusSchema,
         },

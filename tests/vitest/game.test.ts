@@ -4,6 +4,8 @@ import {
     gamePlayerInfoSchema,
     gamePlayerSchema,
     gamePlayerActionSchema,
+    gameListPlayerSchema,
+    gameListsSchema,
 } from "../../src/types/index.js";
 import contract from "../../src/contract/index.js";
 
@@ -254,5 +256,73 @@ describe("playerAction", () => {
         ]) {
             expect(gamePlayerActionSchema.safeParse(body).success).toBe(false);
         }
+    });
+});
+
+describe("gameListsSchema", () => {
+    it("parses the lists of the mod/plugin", () => {
+        // From Paper 26.3: a ban without reason has none
+        const lists = {
+            whitelist: { enabled: true, players: [".Bedrock_1", "Alex"] },
+            bans: [
+                {
+                    name: "Griefer",
+                    reason: "griefing the spawn",
+                    source: "Server",
+                    created: 1794982301138,
+                    expires: null,
+                },
+                {
+                    name: "Quiet",
+                    reason: null,
+                    source: "Server",
+                    created: 1794982301240,
+                    expires: null,
+                },
+            ],
+            ops: ["Alex"],
+        };
+        expect(gameListsSchema.parse(lists)).toEqual(lists);
+        expect(
+            gameListsSchema.parse({ whitelist: null, bans: null, ops: null })
+        ).toEqual({ whitelist: null, bans: null, ops: null });
+    });
+});
+
+describe("gameListPlayerSchema", () => {
+    it("accepts Java and Bedrock names", () => {
+        for (const name of ["Steve", "a", "Griefer_1", ".Bedrock-Steve"]) {
+            expect(gameListPlayerSchema.safeParse(name).success).toBe(true);
+        }
+    });
+
+    it("rejects selectors, UUIDs and long names", () => {
+        for (const name of [
+            "",
+            "@a",
+            "Steve @a",
+            "a_name_way_too_long",
+            "069a79f4-44e9-4726-a5be-fca90e38aaf5",
+        ]) {
+            expect(gameListPlayerSchema.safeParse(name).success).toBe(false);
+        }
+    });
+});
+
+describe("listAdd", () => {
+    const route = contract.game.listAdd;
+
+    it("takes a list and a reason for bans", () => {
+        expect(route.body.parse({})).toEqual({});
+        expect(route.body.parse({ reason: "  griefing " })).toEqual({
+            reason: "griefing",
+        });
+        expect(route.body.safeParse({ reason: "x".repeat(257) }).success).toBe(
+            false
+        );
+        expect(route.pathParams.shape.list.safeParse("ops").success).toBe(true);
+        expect(route.pathParams.shape.list.safeParse("ips").success).toBe(
+            false
+        );
     });
 });
