@@ -11,6 +11,7 @@ import users from "./users.js";
 import backups from "./backups.js";
 import checks from "./checks.js";
 import game from "./game.js";
+import admin from "./admin.js";
 
 const c = initContract();
 
@@ -26,6 +27,7 @@ export default c.router(
         backups,
         checks,
         game,
+        admin,
     },
     {
         pathPrefix: API_PATH_PREFIX,
