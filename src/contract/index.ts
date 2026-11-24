@@ -12,6 +12,7 @@ import backups from "./backups.js";
 import checks from "./checks.js";
 import game from "./game.js";
 import admin from "./admin.js";
+import config from "./config.js";
 
 const c = initContract();
 
@@ -28,6 +29,7 @@ export default c.router(
         checks,
         game,
         admin,
+        config,
     },
     {
         pathPrefix: API_PATH_PREFIX,

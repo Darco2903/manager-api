@@ -10,3 +10,4 @@ export * from "./backups.js";
 export * from "./checks.js";
 export * from "./game.js";
 export * from "./admin.js";
+export * from "./config.js";
