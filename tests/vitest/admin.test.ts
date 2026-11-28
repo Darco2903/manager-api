@@ -99,3 +99,15 @@ describe("adminServerUpdateSchema", () => {
         ).toEqual({ name: "A" });
     });
 });
+
+describe("deleteServer", () => {
+    it("takes the server public id from the path", () => {
+        const params = contract.admin.deleteServer.pathParams;
+        expect(params.parse({ serverPublicId: "abcd1234" })).toEqual({
+            serverPublicId: "abcd1234",
+        });
+        for (const serverPublicId of ["", "abc", "abcd12345", "../etc/x"]) {
+            expect(params.safeParse({ serverPublicId }).success).toBe(false);
+        }
+    });
+});

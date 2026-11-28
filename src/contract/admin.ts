@@ -139,4 +139,21 @@ export default c.router({
             500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
         },
     },
+    deleteServer: {
+        method: "DELETE",
+        path: "/admin/servers/:serverPublicId",
+        description:
+            "Delete a stopped server's row and its permissions. Its files, unit or container stay on the host: adding it again finds them",
+        pathParams: serverParamsSchema,
+        body: z.undefined(),
+        responses: {
+            200: apiSuccess(z.object({ publicId: serverPublicIdSchema })),
+            400: ZodErrorSchema,
+            401: apiError(z.literal("UNAUTHORIZED"), z.literal("Unauthorized")),
+            403: apiError(z.literal("FORBIDDEN"), z.literal("Forbidden")),
+            404: errorServerNotFoundSchema,
+            409: errorServerRunningSchema,
+            500: apiError(z.literal("INTERNAL_SERVER_ERROR"), z.string()),
+        },
+    },
 });
